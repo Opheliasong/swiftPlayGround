@@ -5,9 +5,8 @@ import UIKit
  퀸의 공격 범위에 간섭을 받으면 안된다
  - 같은 행, 같은 열, 대각선상에 서로 배치될 수 없다
  */
-let size:Int = 4
+let size:Int = 5
 var xPosition:[Int] = [Int](repeating: Int.min, count: size)
-var yPosition:[Int] = [Int](repeating: Int.min, count: size)
 var solutionCount:Int = 0
 
 func batchQueen() -> Bool {
@@ -19,7 +18,6 @@ func placeQueen(y:Int) {
     if y >= size {
         solutionCount += 1
         xPosition[y-1] = Int.min
-        yPosition[y-1] = Int.min
         print("====== Sucess =======")
         return
     }
@@ -28,33 +26,23 @@ func placeQueen(y:Int) {
         print("(\(x), \(y))")
         if canPlaceQueen(destX: x, destY: y) {
             xPosition[y] = x
-            yPosition[y] = y
             print("<< (\(x), \(y))")
             placeQueen(y: y + 1)
         }
     }
     if y >= 1 {
-        print("release pos: \(y-1), \(y-1)/ \(xPosition[y-1]), \(yPosition[y-1])")
+        print("release pos: \(y-1), \(y-1)/ \(xPosition[y-1])")
         xPosition[y-1] = Int.min
-        yPosition[y-1] = Int.min
     }
 }
 
 func canPlaceQueen(destX:Int, destY:Int) -> Bool {
     var xPlaceable = true
-    var yPlaceable = true
     
     //X축 검색
     for iter in xPosition {
         if iter == destX {
             xPlaceable = false
-        }
-    }
-    
-    //Y축 검색
-    for iter in yPosition {
-        if iter == destY {
-            yPlaceable = false
         }
     }
     
@@ -71,7 +59,7 @@ func canPlaceQueen(destX:Int, destY:Int) -> Bool {
         rightDir += 1
         yDir -= 1
     }
-    return xPlaceable && yPlaceable && diagonalPlaceable
+    return xPlaceable && diagonalPlaceable
 }
 
 var able = batchQueen()
